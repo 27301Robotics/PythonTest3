@@ -19,6 +19,8 @@ RgtBck = Motor(Ports.PORT20, True)
 RgtFnt = Motor(Ports.PORT10)
 
 inert = Inertial(Ports.PORT12)
+colorchk = Optical(Ports.PORT2)
+distancechk = Distance(Ports.PORT3)
 
 RmG = MotorGroup(RgtBck, RgtFnt)
 LmG = MotorGroup(LftBck, LftFnt)
@@ -26,6 +28,21 @@ LmG = MotorGroup(LftBck, LftFnt)
 DriverTrain = SmartDrive(LmG, RmG, inert, 300, 320, 320, INCHES, 1)
 
 Control = Controller(PRIMARY)
+
+def ColorSort():
+    while True:
+        colorchk.set_light(100)
+        color = colorchk.color()
+        if color == Color.RED:
+            brain.screen.set_pen_color(Color.RED)
+            brain.screen.print("Red Detected")
+        elif color == Color.BLUE:
+            brain.screen.set_pen_color(Color.BLUE)
+            brain.screen.print("Blue Detected")
+        else:
+            brain.screen.set_pen_color(Color.WHITE)
+            brain.screen.print("No Color Detected")
+        wait(500, MSEC)
 
 def AutonPrinting():
     while True:
@@ -99,6 +116,7 @@ def autonomous():
 def user_control():
     brain.screen.clear_screen()
     brain.screen.print("driver control")
+    Thread = (DriverPrinting)
     # place driver control in this while loop
     while True:
         RmG.set_velocity((Control.axis3.position() + Control.axis1.position()), PERCENT)
