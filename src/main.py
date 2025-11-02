@@ -34,15 +34,18 @@ def ColorSort():
         colorchk.set_light(100)
         color = colorchk.color()
         if color == Color.RED:
+            brain.screen.clear_line()
             brain.screen.set_pen_color(Color.RED)
             brain.screen.print("Red Detected")
         elif color == Color.BLUE:
+            brain.screen.clear_line()
             brain.screen.set_pen_color(Color.BLUE)
             brain.screen.print("Blue Detected")
         else:
+            brain.screen.clear_line()
             brain.screen.set_pen_color(Color.WHITE)
             brain.screen.print("No Color Detected")
-        wait(500, MSEC)
+        wait(5, MSEC)
 
 def AutonPrinting():
     while True:
@@ -103,11 +106,16 @@ def DriverPrinting():
 
 def pre_auton():
     brain.screen.clear_screen()
+    inert.calibrate()
+    DriverTrain.set_stopping(HOLD)
+    DriverTrain.set_heading(0, DEGREES)
+
 
 def autonomous():
     brain.screen.clear_screen()
     brain.screen.print("autonomous code")
     Thread = (AutonPrinting)
+    Thread2 = (ColorSort)
     DriverTrain.drive_for(FORWARD, 200, MM)
 
     # place automonous code here
@@ -117,6 +125,7 @@ def user_control():
     brain.screen.clear_screen()
     brain.screen.print("driver control")
     Thread = (DriverPrinting)
+    Thread2 = (ColorSort)
     # place driver control in this while loop
     while True:
         RmG.set_velocity((Control.axis3.position() + Control.axis1.position()), PERCENT)
