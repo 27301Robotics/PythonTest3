@@ -12,13 +12,18 @@ from vex import *
 
 brain = Brain()
 
-LftBck = Motor(Ports.PORT11)
+LftBck = Motor(Ports.PORT13)
 LftFnt = Motor(Ports.PORT1, True)
 
-RgtBck = Motor(Ports.PORT20, True)
+RgtBck = Motor(Ports.PORT16, True)
 RgtFnt = Motor(Ports.PORT10)
 
-inert = Inertial(Ports.PORT12)
+Intake1 = Motor(Ports.PORT19)
+Intake2 = Motor(Ports.PORT20)
+
+
+inert = Inertial(Ports.PORT7
+                 )
 colorchk = Optical(Ports.PORT2)
 distancechk = Distance(Ports.PORT3)
 
@@ -32,16 +37,23 @@ Control = Controller(PRIMARY)
 def ColorSort():
     while True:
         colorchk.set_light(100)
+        Intake1.set_velocity(100, PERCENT)
+        Intake2.set_velocity(100, PERCENT)
+        Intake1.spin(FORWARD)
+        Intake2.spin(FORWARD)
         color = colorchk.color()
         if color == Color.RED:
             brain.screen.clear_line()
             brain.screen.set_pen_color(Color.RED)
             brain.screen.print("Red Detected")
         elif color == Color.BLUE:
+            Intake1.spin(REVERSE)
+            Intake2.spin(FORWARD)
             brain.screen.clear_line()
             brain.screen.set_pen_color(Color.BLUE)
             brain.screen.print("Blue Detected")
         else:
+
             brain.screen.clear_line()
             brain.screen.set_pen_color(Color.WHITE)
             brain.screen.print("No Color Detected")
@@ -106,17 +118,16 @@ def DriverPrinting():
 
 def pre_auton():
     brain.screen.clear_screen()
+    brain.screen.set_cursor(1, 1)
     inert.calibrate()
     DriverTrain.set_stopping(HOLD)
     DriverTrain.set_heading(0, DEGREES)
     DriverTrain.set_rotation(0, DEGREES)
-    while inert.is_calibrating():
-        Control.rumble("----")
-        wait(5, MSEC)
 
 
 def autonomous():
     brain.screen.clear_screen()
+    brain.screen.set_cursor(1, 1)
     brain.screen.print("autonomous code")
     Thread = (AutonPrinting)
     Thread2 = (ColorSort)
@@ -127,6 +138,7 @@ def autonomous():
 
 def user_control():
     brain.screen.clear_screen()
+    brain.screen.set_cursor(1, 1)
     brain.screen.print("driver control")
     DriverTrain.set_stopping(COAST)
     Thread = (DriverPrinting)
