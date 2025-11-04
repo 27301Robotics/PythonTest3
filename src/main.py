@@ -53,7 +53,6 @@ def ColorSort():
             brain.screen.set_pen_color(Color.BLUE)
             brain.screen.print("Blue Detected")
         else:
-
             brain.screen.clear_line()
             brain.screen.set_pen_color(Color.WHITE)
             brain.screen.print("No Color Detected")
@@ -61,8 +60,6 @@ def ColorSort():
 
 def AutonPrinting():
     while True:
-        brain.screen.clear_screen()
-        brain.screen.print("autonomous code")
         brain.screen.new_line()
         brain.screen.new_line()
         brain.screen.print("Battery Life ")
@@ -83,8 +80,6 @@ def AutonPrinting():
 
 def DriverPrinting():
     while True:
-        brain.screen.clear_screen()
-        brain.screen.print("Driver Control")
         brain.screen.new_line()
         brain.screen.new_line()
         brain.screen.print("Battery Life")
@@ -129,9 +124,9 @@ def autonomous():
     brain.screen.clear_screen()
     brain.screen.set_cursor(1, 1)
     brain.screen.print("autonomous code")
-    Thread = (AutonPrinting)
-    Thread2 = (ColorSort)
-    DriverTrain.drive_for(FORWARD, 200, MM)
+    autoP = Thread(AutonPrinting)
+    ColorSort2 = Thread(ColorSort)
+    
 
     # place automonous code here
 
@@ -141,8 +136,8 @@ def user_control():
     brain.screen.set_cursor(1, 1)
     brain.screen.print("driver control")
     DriverTrain.set_stopping(COAST)
-    Thread = (DriverPrinting)
-    Thread2 = (ColorSort)
+    DriveP = Thread(DriverPrinting)
+    ColorSort2 = Thread(ColorSort)
     # place driver control in this while loop
     while True:
         RmG.set_velocity((Control.axis3.position() + Control.axis1.position()), PERCENT)
