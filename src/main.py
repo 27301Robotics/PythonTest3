@@ -112,7 +112,7 @@ def pre_auton():
     DriverTrain.set_rotation(0, DEGREES)
     while inert.is_calibrating():
         Control.rumble("----")
-        
+        wait(5, MSEC)
 
 
 def autonomous():
