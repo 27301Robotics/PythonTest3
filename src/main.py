@@ -109,6 +109,10 @@ def pre_auton():
     inert.calibrate()
     DriverTrain.set_stopping(HOLD)
     DriverTrain.set_heading(0, DEGREES)
+    DriverTrain.set_rotation(0, DEGREES)
+    while inert.is_calibrating():
+        Control.rumble("----")
+        
 
 
 def autonomous():
@@ -124,6 +128,7 @@ def autonomous():
 def user_control():
     brain.screen.clear_screen()
     brain.screen.print("driver control")
+    DriverTrain.set_stopping(COAST)
     Thread = (DriverPrinting)
     Thread2 = (ColorSort)
     # place driver control in this while loop
