@@ -22,8 +22,8 @@ Intake1 = Motor(Ports.PORT19)
 Intake2 = Motor(Ports.PORT17)
 
 
-inert = Inertial(Ports.PORT7
-                 )
+inert = Inertial(Ports.PORT7)
+
 colorchk = Optical(Ports.PORT9)
 distancechk = Distance(Ports.PORT3)
 
@@ -44,12 +44,14 @@ def ColorSortA():
         Intake2.spin(FORWARD)
         color = colorchk.color()
         if color == Color.RED:
+            Intake1.spin(REVERSE)
+            Intake2.spin(FORWARD)
             brain.screen.clear_line()
             brain.screen.set_pen_color(Color.RED)
             brain.screen.print("Red Detected")
         elif color == Color.BLUE:
-            Intake1.spin(REVERSE)
-            Intake2.spin(FORWARD)
+            #Intake1.spin(REVERSE)
+            #Intake2.spin(FORWARD)
             brain.screen.clear_line()
             brain.screen.set_pen_color(Color.BLUE)
             brain.screen.print("Blue Detected")
@@ -94,6 +96,7 @@ def AutonPrinting():
         Control.screen.print("Heading ", inert.heading())
         Control.screen.new_line()
         Control.screen.print("Rotation ", inert.rotation())
+        wait(5, MSEC)
         
 def DriverPrinting():
     while True:
@@ -143,6 +146,7 @@ def autonomous():
     brain.screen.new_line()
     thread1 = Thread(AutonPrinting)
     thread2 = Thread(ColorSortA)
+    DriverTrain.drive_for(FORWARD, 100, MM)
     
     
 
