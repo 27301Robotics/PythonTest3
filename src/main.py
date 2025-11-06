@@ -10,6 +10,7 @@
 # Library imports
 from vex import *
 
+# Motors, and other devices
 brain = Brain()
 
 LftBck = Motor(Ports.PORT13)
@@ -33,6 +34,8 @@ LmG = MotorGroup(LftBck, LftFnt)
 DriverTrain = SmartDrive(LmG, RmG, inert, 300, 320, 320, INCHES, 1)
 
 Control = Controller(PRIMARY)
+
+# Start of Functions 
 
 def ColorSortA():
     while True:
@@ -128,7 +131,7 @@ def DriverPrinting():
         Control.screen.new_line()
         wait(5,MSEC)
 
-
+# Competition Mode
 
 def pre_auton():
     brain.screen.clear_screen()
