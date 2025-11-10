@@ -37,6 +37,8 @@ Control = Controller(PRIMARY)
 
 # Start of Functions 
 
+
+
 def ColorSortA():
     while True:
         brain.screen.set_cursor(7, 1)
@@ -169,6 +171,14 @@ def user_control():
         LmG.set_velocity((Control.axis3.position() - Control.axis1.position()), PERCENT)
         RmG.spin(FORWARD)
         LmG.spin(FORWARD)
+
+        if Control.buttonL1.pressing():
+            Intake1.set_velocity(100, PERCENT)
+            Intake1.spin(FORWARD)
+        elif Control.buttonL2.pressing():
+            Intake1.spin(REVERSE)
+        else:
+            Intake1.stop()
         
         wait(20, MSEC)
 
